@@ -1,0 +1,6 @@
+[gd_scene load_steps=2 format=3 uid="uid://cylo1nxdvcre"]
+
+[ext_resource type="Script" uid="uid://2tljwi8ijdx8" path="res://zlevel_class_scripts/Run_Game.gd" id="1_ccnel"]
+
+[node name="Run_Game" type="Node2D"]
+script = ExtResource("1_ccnel")

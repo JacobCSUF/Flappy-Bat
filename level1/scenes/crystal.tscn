@@ -1,0 +1,57 @@
+[gd_scene load_steps=8 format=3 uid="uid://ch3g2m43mqhqd"]
+
+[ext_resource type="Texture2D" uid="uid://dcrrgenik87gm" path="res://level1/assets/sprites/crystal XD.png" id="1_lj8jo"]
+[ext_resource type="Shader" uid="uid://dqa86fdiqm5u3" path="res://shaders/crystal.gdshader" id="2_g5hse"]
+
+[sub_resource type="GDScript" id="GDScript_63x37"]
+script/source = "extends \"res://scripts/OBJECT_MOVEMENT.gd\"
+func _ready():
+	super()
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_g5hse"]
+shader = ExtResource("2_g5hse")
+shader_parameter/flash_intensity = 0.3
+shader_parameter/flash_interval = 1.0
+shader_parameter/flash_duration = 0.2
+
+[sub_resource type="Gradient" id="Gradient_g2brh"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dn4c7"]
+gradient = SubResource("Gradient_g2brh")
+fill = 1
+fill_from = Vector2(0.507645, 0.477064)
+fill_to = Vector2(0.831804, 0.119266)
+
+[sub_resource type="GDScript" id="GDScript_g5hse"]
+script/source = "extends PointLight2D
+
+
+# Called when the node enters the scene tree for the first time.
+func _ready() -> void:
+	pass # Replace with function body.
+
+
+# Called every frame. 'delta' is the elapsed time since the previous frame.
+func _process(delta: float) -> void:
+	pass
+"
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+script = SubResource("GDScript_63x37")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+material = SubResource("ShaderMaterial_g5hse")
+position = Vector2(0, -1)
+scale = Vector2(1, 1.03125)
+texture = ExtResource("1_lj8jo")
+
+[node name="PointLight2D" type="PointLight2D" parent="Sprite2D"]
+position = Vector2(-2.99999, 5)
+scale = Vector2(0.888545, 0.87887)
+color = Color(0.658526, 0.49058, 0.85181, 0.921569)
+energy = 1.05
+texture = SubResource("GradientTexture2D_dn4c7")
+texture_scale = 3.23
+script = SubResource("GDScript_g5hse")

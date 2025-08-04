@@ -1,0 +1,149 @@
+[gd_scene load_steps=19 format=3 uid="uid://bno3ktychbnsj"]
+
+[ext_resource type="Script" uid="uid://b5k87jmwkwm1c" path="res://scripts/OBJECT_MOVEMENT.gd" id="1_gdyii"]
+[ext_resource type="Texture2D" uid="uid://dup0hq3gov1wx" path="res://assets/sprites/background/barrel break.png" id="2_gdyii"]
+[ext_resource type="Texture2D" uid="uid://vbpe2pwrok4b" path="res://assets/sprites/background/Destructibles Sprite Sheet.png" id="2_mhtw8"]
+[ext_resource type="PackedScene" uid="uid://dwv2t6r54wd1h" path="res://scenes/killzone.tscn" id="3_gdyii"]
+[ext_resource type="AudioStream" uid="uid://oodeaf1ouwky" path="res://assets/sounds/wood-smash-1-170410.mp3" id="4_mhtw8"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p63pu"]
+atlas = ExtResource("2_gdyii")
+region = Rect2(0, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ywul"]
+atlas = ExtResource("2_gdyii")
+region = Rect2(0, 80, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_043oi"]
+atlas = ExtResource("2_gdyii")
+region = Rect2(0, 160, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4ucd5"]
+atlas = ExtResource("2_gdyii")
+region = Rect2(0, 240, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bdev8"]
+atlas = ExtResource("2_gdyii")
+region = Rect2(0, 320, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gdyii"]
+atlas = ExtResource("2_mhtw8")
+region = Rect2(0, 0, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qowtj"]
+atlas = ExtResource("2_mhtw8")
+region = Rect2(0, 80, 80, 80)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_61w87"]
+atlas = ExtResource("2_mhtw8")
+region = Rect2(0, 160, 80, 80)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_qowtj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p63pu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ywul")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_043oi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4ucd5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bdev8")
+}],
+"loop": false,
+"name": &"break",
+"speed": 7.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gdyii")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qowtj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_61w87")
+}],
+"loop": true,
+"name": &"default",
+"speed": 16.0
+}]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_1fq6y"]
+radius = 7.25229
+height = 23.5058
+
+[sub_resource type="Animation" id="Animation_qowtj"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("barrel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 20)]
+}
+
+[sub_resource type="Animation" id="Animation_gdyii"]
+resource_name = "updown"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("barrel:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 20), Vector2(0, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_p63pu"]
+_data = {
+&"RESET": SubResource("Animation_qowtj"),
+&"updown": SubResource("Animation_gdyii")
+}
+
+[node name="destructable" type="CharacterBody2D"]
+script = ExtResource("1_gdyii")
+
+[node name="barrel" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 0.839216, 1, 1)
+position = Vector2(0, 20)
+scale = Vector2(0.952365, 0.998529)
+sprite_frames = SubResource("SpriteFrames_qowtj")
+autoplay = "default"
+frame = 2
+frame_progress = 0.502597
+
+[node name="Killzone" parent="barrel" instance=ExtResource("3_gdyii")]
+position = Vector2(1.37037, -4.01575)
+scale = Vector2(2.18403, 2.30069)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="barrel/Killzone"]
+position = Vector2(-0.62745, 4.35721)
+shape = SubResource("CapsuleShape2D_1fq6y")
+
+[node name="woodbreak" type="AudioStreamPlayer2D" parent="barrel"]
+position = Vector2(35.1617, 3.4619)
+scale = Vector2(0.587331, 0.548721)
+stream = ExtResource("4_mhtw8")
+volume_db = -13.729
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_p63pu")
+}
+autoplay = "updown"

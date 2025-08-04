@@ -1,0 +1,59 @@
+[gd_scene load_steps=8 format=3 uid="uid://bkr3am5phr7rp"]
+
+[ext_resource type="Script" uid="uid://di4lfixgan8ve" path="res://scripts/fruit.gd" id="1_t2alg"]
+[ext_resource type="Texture2D" uid="uid://wii2vpu4d21h" path="res://assets/sprites/background/manyfruits.png" id="2_64keg"]
+[ext_resource type="AudioStream" uid="uid://u6daqg8pid2q" path="res://assets/sounds/apple-crunch.mp3" id="2_t2alg"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_t2alg"]
+atlas = ExtResource("2_64keg")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8d2he"]
+atlas = ExtResource("2_64keg")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_lay3v"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t2alg")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8d2he")
+}],
+"loop": true,
+"name": &"watermelon",
+"speed": 5.0
+}]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_64keg"]
+radius = 15.3745
+
+[node name="fruit" type="CharacterBody2D"]
+script = ExtResource("1_t2alg")
+
+[node name="Fruit" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, 2.84217e-14)
+scale = Vector2(0.414063, 0.429688)
+sprite_frames = SubResource("SpriteFrames_lay3v")
+animation = &"new_animation"
+autoplay = "new_animation"
+
+[node name="Area2D" type="Area2D" parent="Fruit"]
+position = Vector2(0, 1)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Fruit/Area2D"]
+position = Vector2(-3.63798e-14, 0.333333)
+shape = SubResource("CircleShape2D_64keg")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(1, 0)
+stream = ExtResource("2_t2alg")
+volume_db = -15.682
+
+[connection signal="body_entered" from="Fruit/Area2D" to="." method="_on_area_2d_body_entered"]

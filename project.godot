@@ -1,0 +1,36 @@
+; Engine configuration file.
+; It's best edited using the editor UI and not directly,
+; since the parameters that go here are not all obvious.
+;
+; Format:
+;   [section] ; section goes between []
+;   param=value ; assign values to parameters
+
+config_version=5
+
+[application]
+
+config/name="Flappy Bat"
+run/main_scene="uid://cylo1nxdvcre"
+config/features=PackedStringArray("4.4", "Forward Plus")
+
+[autoload]
+
+GameManager="*res://scripts/GameManager.gd"
+MovementManager="*res://scripts/MovementManager.gd"
+AnimationManager="*res://scripts/animation_manager.gd"
+
+[display]
+
+window/size/viewport_width=2310
+window/size/viewport_height=1300
+window/stretch/mode="viewport"
+
+[global_group]
+
+Boat_Cart=""
+
+[rendering]
+
+textures/canvas_textures/default_texture_filter=0
+textures/size/viewport_width=1000

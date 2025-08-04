@@ -1,0 +1,110 @@
+[gd_scene load_steps=13 format=3 uid="uid://go4mn4ywnafo"]
+
+[ext_resource type="Script" uid="uid://d2uft6awkjqgy" path="res://level2/scripts/cage.gd" id="1_1l6uh"]
+[ext_resource type="Texture2D" uid="uid://dffltx5od5kre" path="res://assets/sprites/background/cage_chain.png" id="2_b1fii"]
+[ext_resource type="PackedScene" uid="uid://dwv2t6r54wd1h" path="res://scenes/killzone.tscn" id="3_b1fii"]
+[ext_resource type="AudioStream" uid="uid://cqdopdb2mliyu" path="res://level2/assets/sounds/Metal Chain Sound Effects.mp3" id="4_b1fii"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4c4e"]
+atlas = ExtResource("2_b1fii")
+region = Rect2(0, 0, 400, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ht7dm"]
+atlas = ExtResource("2_b1fii")
+region = Rect2(0, 600, 400, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s2snt"]
+atlas = ExtResource("2_b1fii")
+region = Rect2(0, 1200, 400, 600)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h1mx2"]
+atlas = ExtResource("2_b1fii")
+region = Rect2(0, 1800, 400, 600)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_b4c4e"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4c4e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ht7dm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s2snt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h1mx2")
+}],
+"loop": true,
+"name": &"default",
+"speed": 7.0
+}]
+
+[sub_resource type="Animation" id="Animation_ht7dm"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(7, -149)]
+}
+
+[sub_resource type="Animation" id="Animation_b4c4e"]
+resource_name = "chainfall"
+length = 3.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1.5, 3),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Vector2(7, -149), Vector2(7, -90), Vector2(7, -149)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_s2snt"]
+_data = {
+&"RESET": SubResource("Animation_ht7dm"),
+&"chainfall": SubResource("Animation_b4c4e")
+}
+
+[node name="cage" type="CharacterBody2D"]
+script = ExtResource("1_1l6uh")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+modulate = Color(1, 0.715421, 0.491221, 1)
+position = Vector2(7, -149)
+scale = Vector2(0.524583, 0.56157)
+sprite_frames = SubResource("SpriteFrames_b4c4e")
+autoplay = "default"
+frame_progress = 0.975953
+
+[node name="Killzone" parent="AnimatedSprite2D" instance=ExtResource("3_b1fii")]
+position = Vector2(-1, 0)
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AnimatedSprite2D/Killzone"]
+polygon = PackedVector2Array(-10, 293, 30, 281, 28, 118, -10, 88, -10.4377, 101.501, -14, 89, -47, 117, -44, 285, -11, 294)
+
+[node name="AudioStreamPlayer2D2" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_b1fii")
+volume_db = -24.794
+autoplay = true
+max_distance = 210.0
+max_polyphony = 3
+
+[node name="chainfall" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_s2snt")
+}
+autoplay = "chainfall"

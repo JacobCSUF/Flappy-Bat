@@ -1,0 +1,43 @@
+[gd_scene load_steps=3 format=3 uid="uid://b7v4pqq7l8vej"]
+
+[ext_resource type="Texture2D" uid="uid://bm3s1o0l0h2ao" path="res://level2/assets/sprites/image.png" id="1_0fbet"]
+[ext_resource type="Script" uid="uid://c8smip5ynv7vk" path="res://level2/scenes/control.gd" id="1_62e2m"]
+
+[node name="Control" type="Control"]
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -2311.0
+offset_bottom = -1300.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_62e2m")
+
+[node name="TextureRect" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("1_0fbet")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+offset_left = 907.0
+offset_top = 412.0
+offset_right = 1277.0
+offset_bottom = 842.0
+
+[node name="Button" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 120
+text = "Play"
+
+[node name="Button2" type="Button" parent="VBoxContainer"]
+layout_mode = 2
+theme_override_font_sizes/font_size = 120
+text = "Exit
+"
+
+[connection signal="pressed" from="VBoxContainer/Button" to="." method="_on_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Button2" to="." method="_on_button_2_pressed"]

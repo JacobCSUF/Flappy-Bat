@@ -1,0 +1,19 @@
+[gd_scene load_steps=5 format=3 uid="uid://r23sun658p3a"]
+
+[ext_resource type="Shader" uid="uid://b0mxpij7fo2v1" path="res://shaders/waterfall.gdshader" id="1_cwatv"]
+[ext_resource type="Texture2D" uid="uid://dh2oa8x8fg5qt" path="res://level1/assets/sprites/waterfall.png" id="2_deq8o"]
+[ext_resource type="AudioStream" uid="uid://tponu8w1nuul" path="res://level1/assets/sounds/rain-in-sewer-drain-32804.mp3" id="3_deq8o"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vbqhg"]
+shader = ExtResource("1_cwatv")
+
+[node name="AnimatedSprite2D" type="Sprite2D"]
+texture_repeat = 2
+material = SubResource("ShaderMaterial_vbqhg")
+texture = ExtResource("2_deq8o")
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("3_deq8o")
+volume_db = -16.799
+autoplay = true
+max_distance = 380.0

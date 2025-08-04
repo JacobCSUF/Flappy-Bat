@@ -1,0 +1,107 @@
+[gd_scene load_steps=10 format=3 uid="uid://bluvs0d03tmdj"]
+
+[ext_resource type="Script" uid="uid://ca473cjg1jho" path="res://level2/scripts/boulder.gd" id="1_33s8j"]
+[ext_resource type="Texture2D" uid="uid://cy6c0q40crsdq" path="res://level2/assets/sprites/boulder red.png" id="1_m26wm"]
+[ext_resource type="PackedScene" uid="uid://dwv2t6r54wd1h" path="res://scenes/killzone.tscn" id="2_33s8j"]
+[ext_resource type="AudioStream" uid="uid://dvn6ndompcr7o" path="res://level2/assets/sounds/rumbling-drone-59370.mp3" id="4_nnhsl"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_nnhsl"]
+radius = 239.838
+
+[sub_resource type="Animation" id="Animation_nnhsl"]
+length = 0.001
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Sprite2D:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_4heou"]
+resource_name = "fall_boulder"
+length = 2.1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2.1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 400)]
+}
+
+[sub_resource type="Animation" id="Animation_33s8j"]
+resource_name = "fallboulder"
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, -6.28319]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_yl8j1"]
+_data = {
+&"RESET": SubResource("Animation_nnhsl"),
+&"fall_boulder": SubResource("Animation_4heou"),
+&"spinning": SubResource("Animation_33s8j")
+}
+
+[node name="CharacterBody2D" type="CharacterBody2D"]
+modulate = Color(0.72549, 0.341176, 0.72549, 1)
+script = ExtResource("1_33s8j")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.3, 0.31)
+texture = ExtResource("1_m26wm")
+
+[node name="Killzone" parent="Sprite2D" instance=ExtResource("2_33s8j")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Killzone"]
+visible = false
+shape = SubResource("CircleShape2D_nnhsl")
+
+[node name="RayCast2D" type="RayCast2D" parent="Sprite2D"]
+position = Vector2(3.05176e-05, 2.82846)
+target_position = Vector2(-437.022, 0.823951)
+collision_mask = 130
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_yl8j1")
+}
+autoplay = "spinning"
+
+[node name="bouldernoises" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_nnhsl")
+volume_db = -1.359
+autoplay = true
+max_distance = 646.0

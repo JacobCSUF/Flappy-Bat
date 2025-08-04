@@ -1,0 +1,88 @@
+[gd_scene load_steps=13 format=3 uid="uid://cylo1nxdvcre"]
+
+[ext_resource type="Script" uid="uid://2tljwi8ijdx8" path="res://zlevel_class_scripts/Run_Game.gd" id="1_ccnel"]
+[ext_resource type="PackedScene" uid="uid://b7v4pqq7l8vej" path="res://level2/scenes/control.tscn" id="2_6mhg7"]
+[ext_resource type="Texture2D" uid="uid://crvv7056fiahb" path="res://level2/assets/sprites/flamingtext_com-2683565226.png" id="3_3twgt"]
+[ext_resource type="Texture2D" uid="uid://bswssg635d18h" path="res://level2/assets/sprites/lavafall.png" id="4_erd8n"]
+[ext_resource type="Shader" uid="uid://b0mxpij7fo2v1" path="res://shaders/waterfall.gdshader" id="4_iic0m"]
+[ext_resource type="AudioStream" uid="uid://ovwkif16i8pu" path="res://assets/sounds/epic-background-music-364885.mp3" id="6_wy2cm"]
+[ext_resource type="Script" uid="uid://i3i8us1n1bh6" path="res://zlevel_class_scripts/epic_background_music_364885.gd" id="7_wy2cm"]
+[ext_resource type="Texture2D" uid="uid://d3jcfa5x3jvy3" path="res://assets/sprites/characters/bat-sheet.png" id="8_d7o0c"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_3fobg"]
+shader = ExtResource("4_iic0m")
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_50r1e"]
+atlas = ExtResource("8_d7o0c")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_kwl2v"]
+atlas = ExtResource("8_d7o0c")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_ldsxo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_50r1e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_kwl2v")
+}],
+"loop": true,
+"name": &"default",
+"speed": 9.0
+}]
+
+[node name="Run_Game" type="Node2D"]
+script = ExtResource("1_ccnel")
+
+[node name="Control2" parent="." instance=ExtResource("2_6mhg7")]
+offset_top = -1.0
+offset_right = 0.0
+offset_bottom = -1.0
+scale = Vector2(1.05, 1.05)
+
+[node name="FlamingtextCom-2683565226" type="Sprite2D" parent="Control2"]
+modulate = Color(0.995654, 0.000832855, 0.997886, 1)
+position = Vector2(1107, 207)
+scale = Vector2(1.32519, 1.73474)
+texture = ExtResource("3_3twgt")
+
+[node name="Lavafall" type="Sprite2D" parent="Control2"]
+modulate = Color(0.803325, 0.803325, 0.803325, 1)
+texture_repeat = 2
+material = SubResource("ShaderMaterial_3fobg")
+position = Vector2(428.25, 651.5)
+scale = Vector2(3.33594, 10.1328)
+texture = ExtResource("4_erd8n")
+
+[node name="Lavafall3" type="Sprite2D" parent="Control2"]
+modulate = Color(0.831761, 0.831761, 0.831761, 1)
+texture_repeat = 2
+material = SubResource("ShaderMaterial_3fobg")
+position = Vector2(1878.75, 651.5)
+scale = Vector2(3.33594, 10.1484)
+texture = ExtResource("4_erd8n")
+
+[node name="Epic-background-music-364885" type="AudioStreamPlayer2D" parent="Control2"]
+position = Vector2(1102, 503)
+stream = ExtResource("6_wy2cm")
+volume_db = -27.333
+autoplay = true
+script = ExtResource("7_wy2cm")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="Control2"]
+position = Vector2(478, 222)
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_ldsxo")
+autoplay = "default"
+frame_progress = 0.0790902
+
+[node name="AnimatedSprite2D2" type="AnimatedSprite2D" parent="Control2"]
+position = Vector2(1708, 226)
+scale = Vector2(6, 6)
+sprite_frames = SubResource("SpriteFrames_ldsxo")
+autoplay = "default"
+frame = 1
+frame_progress = 0.909545

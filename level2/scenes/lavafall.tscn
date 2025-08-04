@@ -1,0 +1,30 @@
+[gd_scene load_steps=5 format=3 uid="uid://cgqu5ud8y4hhl"]
+
+[ext_resource type="Script" uid="uid://bo55coklwyovx" path="res://level2/scripts/lavafall.gd" id="1_54ktq"]
+[ext_resource type="Texture2D" uid="uid://bswssg635d18h" path="res://level2/assets/sprites/lavafall.png" id="2_p8yqq"]
+
+[sub_resource type="Shader" id="Shader_p8yqq"]
+code = "shader_type canvas_item;
+
+void vertex() {
+UV.y += TIME*-.115;
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8k4t0"]
+shader = SubResource("Shader_p8yqq")
+
+[node name="Node2D" type="CharacterBody2D"]
+modulate = Color(0.691357, 0.691357, 0.691357, 1)
+z_index = 4096
+script = ExtResource("1_54ktq")
+
+[node name="Waterfall" type="Sprite2D" parent="."]
+modulate = Color(1, 1, 1, 0.784314)
+light_mask = 513
+z_index = 4096
+texture_repeat = 2
+material = SubResource("ShaderMaterial_8k4t0")
+position = Vector2(1, -1)
+scale = Vector2(1.16309, 4.01562)
+texture = ExtResource("2_p8yqq")

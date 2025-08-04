@@ -1,0 +1,97 @@
+[gd_scene load_steps=10 format=3 uid="uid://naxnnhd5c5e6"]
+
+[ext_resource type="Script" uid="uid://dlhfb6xuov45f" path="res://level1/scripts/ball.gd" id="1_4dx81"]
+[ext_resource type="Texture2D" uid="uid://wcmdj1k3ncvv" path="res://level1/assets/sprites/orbs.png" id="1_7s4qf"]
+[ext_resource type="AudioStream" uid="uid://7ec8bqdbo0k" path="res://assets/sounds/collect-points-190037.mp3" id="4_eew57"]
+
+[sub_resource type="Shader" id="Shader_x28ck"]
+code = "shader_type canvas_item;
+
+uniform float flash_intensity = 0.5; // How strong the flash is
+uniform float flash_interval = 1.0;  // How often it flashes (in seconds)
+uniform float flash_duration = 0.2;  // How long each flash lasts (in seconds)
+
+void fragment() {
+    vec4 tex = texture(TEXTURE, UV);
+
+    float time_in_cycle = mod(TIME, flash_interval);
+    float flash = smoothstep(0.0, flash_duration, flash_duration - abs(time_in_cycle - flash_duration / 2.0));
+
+    tex.rgb += flash * flash_intensity;
+    COLOR = tex;
+}"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cxlvu"]
+shader = SubResource("Shader_x28ck")
+shader_parameter/flash_intensity = 0.5
+shader_parameter/flash_interval = 1.0
+shader_parameter/flash_duration = 0.2
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_4dx81"]
+radius = 224.138
+
+[sub_resource type="Animation" id="Animation_cxlvu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(0, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_7s4qf"]
+resource_name = "ballmove"
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(0, 0), Vector2(0, 10)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_f7cbr"]
+_data = {
+&"RESET": SubResource("Animation_cxlvu"),
+&"ballmove": SubResource("Animation_7s4qf")
+}
+
+[node name="ball" type="CharacterBody2D"]
+z_index = 1
+script = ExtResource("1_4dx81")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+light_mask = 2
+z_index = -3
+material = SubResource("ShaderMaterial_cxlvu")
+scale = Vector2(0.062, 0.062)
+texture = ExtResource("1_7s4qf")
+
+[node name="Sprite2D" type="Area2D" parent="Sprite2D"]
+position = Vector2(0, -30.7692)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Sprite2D"]
+shape = SubResource("CircleShape2D_4dx81")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Sprite2D"]
+libraries = {
+&"": SubResource("AnimationLibrary_f7cbr")
+}
+autoplay = "ballmove"
+
+[node name="AudioStreamPlayer2D" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_eew57")
+volume_db = -12.162
+
+[connection signal="body_entered" from="Sprite2D/Sprite2D" to="." method="_on_sprite_2d_body_entered"]

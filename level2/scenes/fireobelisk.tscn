@@ -1,0 +1,159 @@
+[gd_scene load_steps=15 format=3 uid="uid://fxdqyfbx3w6n"]
+
+[ext_resource type="Script" uid="uid://dgcp0gmjuc88" path="res://level2/scripts/fireobelisk.gd" id="1_b8wth"]
+[ext_resource type="Texture2D" uid="uid://vmofqyg2wprl" path="res://level2/assets/sprites/Obelisk.png" id="2_sjohv"]
+[ext_resource type="PackedScene" uid="uid://dwv2t6r54wd1h" path="res://scenes/killzone.tscn" id="3_16kyw"]
+[ext_resource type="AudioStream" uid="uid://cckroekiutbsv" path="res://level1/assets/sounds/magical-spinning-60410.mp3" id="4_npaq2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4kio6"]
+atlas = ExtResource("2_sjohv")
+region = Rect2(380, 0, 190, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ri8s1"]
+atlas = ExtResource("2_sjohv")
+region = Rect2(570, 0, 190, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yqs6u"]
+atlas = ExtResource("2_sjohv")
+region = Rect2(760, 0, 190, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_k4rd0"]
+atlas = ExtResource("2_sjohv")
+region = Rect2(950, 0, 190, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lwa5f"]
+atlas = ExtResource("2_sjohv")
+region = Rect2(1140, 0, 190, 240)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxjke"]
+atlas = ExtResource("2_sjohv")
+region = Rect2(1330, 0, 190, 240)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_viors"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4kio6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ri8s1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqs6u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4rd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lwa5f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxjke")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lwa5f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_k4rd0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yqs6u")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ri8s1")
+}],
+"loop": true,
+"name": &"default",
+"speed": 6.0
+}]
+
+[sub_resource type="Animation" id="Animation_4kio6"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2, -36)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0523599]
+}
+
+[sub_resource type="Animation" id="Animation_xt4xl"]
+resource_name = "obelisk bounce"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimatedSprite2D:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.666667, 1.3, 2),
+"transitions": PackedFloat32Array(1, 1, 1, 1),
+"update": 0,
+"values": [Vector2(2, -36), Vector2(2, -45), Vector2(2, -36), Vector2(2, -25)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("AnimatedSprite2D:rotation")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1.63333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0523599, -0.0523599]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_ri8s1"]
+_data = {
+&"RESET": SubResource("Animation_4kio6"),
+&"obelisk bounce": SubResource("Animation_xt4xl")
+}
+
+[node name="fireobelisk" type="CharacterBody2D"]
+script = ExtResource("1_b8wth")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+position = Vector2(2, -36)
+rotation = 0.0523599
+scale = Vector2(0.857895, 1.875)
+sprite_frames = SubResource("SpriteFrames_viors")
+autoplay = "default"
+frame = 7
+frame_progress = 0.186671
+
+[node name="Killzone" parent="AnimatedSprite2D" instance=ExtResource("3_16kyw")]
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="AnimatedSprite2D/Killzone"]
+polygon = PackedVector2Array(-13, -88, -4, -97, 5, -88, 36, 94, -4, 106, -43, 95)
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_ri8s1")
+}
+autoplay = "obelisk bounce"
+
+[node name="energy" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("4_npaq2")
+volume_db = 9.905
+autoplay = true
+max_distance = 241.0

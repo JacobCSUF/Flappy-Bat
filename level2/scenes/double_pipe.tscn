@@ -1,0 +1,67 @@
+[gd_scene load_steps=10 format=3 uid="uid://bw81yju86gwhg"]
+
+[ext_resource type="Script" uid="uid://dvqkdc1x3dewc" path="res://level2/scripts/double_pipe.gd" id="1_63n4m"]
+[ext_resource type="Texture2D" uid="uid://cf00nixcayta" path="res://level2/assets/sprites/double pipe-sheet.png" id="2_cvodn"]
+[ext_resource type="PackedScene" uid="uid://dwv2t6r54wd1h" path="res://scenes/killzone.tscn" id="3_cvodn"]
+[ext_resource type="AudioStream" uid="uid://lp4c04o006qj" path="res://level2/assets/sounds/warning-alarm-loop-1-279206.mp3" id="5_h8h02"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h8h02"]
+atlas = ExtResource("2_cvodn")
+region = Rect2(0, 0, 235, 550)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7rdxo"]
+atlas = ExtResource("2_cvodn")
+region = Rect2(0, 550, 235, 550)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_pwk3h"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h8h02")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7rdxo")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h8h02"]
+size = Vector2(31, 121.5)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_h8h02"]
+a = Vector2(-144, -197)
+b = Vector2(-142, 194)
+
+[node name="DoublePipe" type="CharacterBody2D"]
+script = ExtResource("1_63n4m")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="."]
+scale = Vector2(0.218, 0.23)
+sprite_frames = SubResource("SpriteFrames_pwk3h")
+autoplay = "default"
+frame = 1
+frame_progress = 0.142603
+
+[node name="Killzone" parent="Sprite2D" instance=ExtResource("3_cvodn")]
+scale = Vector2(4.58716, 4)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Killzone"]
+position = Vector2(-3, 0.25)
+shape = SubResource("RectangleShape2D_h8h02")
+
+[node name="Warning-alarm-loop-1-279206" type="AudioStreamPlayer2D" parent="."]
+position = Vector2(3, -17)
+stream = ExtResource("5_h8h02")
+volume_db = -28.956
+autoplay = true
+max_distance = 343.0
+
+[node name="fireball turn on" type="Area2D" parent="."]
+
+[node name="fireball turn on" type="CollisionShape2D" parent="fireball turn on"]
+position = Vector2(-25, 5)
+shape = SubResource("SegmentShape2D_h8h02")
+
+[connection signal="body_entered" from="fireball turn on" to="." method="_on_fireball_turn_on_body_entered"]

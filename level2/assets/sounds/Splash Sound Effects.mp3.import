@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://dxqmkfceyuaux"
+path="res://.godot/imported/Splash Sound Effects.mp3-432c884aa3564d6d982bbc6a5add7e91.mp3str"
+
+[deps]
+
+source_file="res://level2/assets/sounds/Splash Sound Effects.mp3"
+dest_files=["res://.godot/imported/Splash Sound Effects.mp3-432c884aa3564d6d982bbc6a5add7e91.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

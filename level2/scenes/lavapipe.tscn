@@ -1,0 +1,98 @@
+[gd_scene load_steps=10 format=3 uid="uid://pdlgdp53t1f2"]
+
+[ext_resource type="Script" uid="uid://cpojwkvdxo2pa" path="res://level2/scripts/lavapipe.gd" id="1_55pb1"]
+[ext_resource type="PackedScene" uid="uid://dwv2t6r54wd1h" path="res://scenes/killzone.tscn" id="2_55pb1"]
+[ext_resource type="Texture2D" uid="uid://bnbfqbjmfi084" path="res://assets/sprites/Mario_pipe.png" id="2_umwmo"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_chu0t"]
+size = Vector2(50, 306.934)
+
+[sub_resource type="OccluderPolygon2D" id="OccluderPolygon2D_umwmo"]
+polygon = PackedVector2Array(-24, -151, -22, -151, -22, -154, 23, -154, 23, -151, 26, -151, 26, -131, 24, -131, 24, -128, 20, -128, 19, 155, -19, 155, -19, -128, -22, -128, -22, -131, -24, -131)
+
+[sub_resource type="Animation" id="Animation_7g7iu"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_umwmo"]
+resource_name = "new_animation"
+length = 4.0
+loop_mode = 1
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2.01, 3, 4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.15708, 0.0, 0.15708, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_55pb1"]
+resource_name = "redspin"
+length = 2.0
+loop_mode = 2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [0.0523599, -0.0523599, 0.0523599]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_55pb1"]
+_data = {
+&"RESET": SubResource("Animation_7g7iu"),
+&"new_animation": SubResource("Animation_umwmo"),
+&"redspin": SubResource("Animation_55pb1")
+}
+
+[node name="Node2D" type="CharacterBody2D"]
+script = ExtResource("1_55pb1")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(4.76837e-07, 20)
+scale = Vector2(0.218107, 0.289583)
+texture = ExtResource("2_umwmo")
+
+[node name="Killzone" parent="Sprite2D" instance=ExtResource("2_55pb1")]
+position = Vector2(192.566, -134.676)
+scale = Vector2(4.58491, 3.45324)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Killzone"]
+visible = false
+z_index = 7
+position = Vector2(-42, 21)
+shape = SubResource("RectangleShape2D_chu0t")
+
+[node name="LightOccluder2D" type="LightOccluder2D" parent="Sprite2D/Killzone/CollisionShape2D"]
+position = Vector2(4.57763e-05, -2.0001)
+occluder = SubResource("OccluderPolygon2D_umwmo")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_55pb1")
+}
+autoplay = "new_animation"
+
+[node name="charge_timer" type="Timer" parent="."]
+wait_time = 0.206
