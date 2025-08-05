@@ -225,7 +225,7 @@ func spawn_boosts_and_big_rocks():
 	for i in range(3):
 		var fan_ = fan.instantiate()
 		fan_.autospin = true
-		fan_.position = Vector2(spawn_location + (i * 70)-30, 105)  # 70 pixels apart horizontally
+		fan_.position = Vector2(spawn_location + (i * 50)-30, 105)  # 70 pixels apart horizontally
 		add_child(fan_)
 
 	# Spawn 3 big boulders spaced for jumping

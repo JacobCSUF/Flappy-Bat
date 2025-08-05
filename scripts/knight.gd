@@ -1,5 +1,5 @@
 extends CharacterBody2D
-enum PlayerState { FLYING, BOAT}
+enum PlayerState { FLYING, BOAT, ROLL}
 var current_state: PlayerState = PlayerState.FLYING
 
 @onready var audio_stream_player_2d: AudioStreamPlayer2D = $AudioStreamPlayer2D
@@ -30,14 +30,15 @@ func _ready():
 	AnimationManager.connect("shield_ready", Callable(self, "_on_shield_ready"))
 	AnimationManager.connect("break_shield", Callable(self, "_on_break_shield"))
 func _physics_process(delta: float) -> void:
-	if GameManager.paused:
-		return
+	#if GameManager.paused:
+		#return
 	match current_state:
 		PlayerState.FLYING:
 			handle_flying(delta)
 		PlayerState.BOAT:
 			handle_boat(delta)
-
+		PlayerState.ROLL:
+			handle_roll(delta)
 	move_and_slide()
 
 func enter_flying_mode():
@@ -138,8 +139,7 @@ func enter_boat_mode():
 	
 	if GameManager.current_level == "lavacave":
 		minecart_hitbox.call_deferred("set", "disabled", false)
-	if GameManager.current_level == "crystalcave":
-		minecart_hitbox_2.call_deferred("set", "disabled", false)
+	
 	is_jumping = false
 	
 	velocity = Vector2.ZERO
@@ -166,8 +166,7 @@ func handle_boat(delta):
 			has_applied_hold_boost = true
 
 		if is_on_floor():
-			if GameManager.current_level == "crystalcave":
-				AnimationManager.boat_lava_fall()
+			
 			velocity = Vector2.ZERO
 			is_jumping = false
 			jump_timer = 0.0
@@ -191,8 +190,7 @@ func handle_boat(delta):
 			
 			# Start jump state, and set jump_timer to delay time
 			
-			if GameManager.current_level == "crystalcave":
-				AnimationManager.boat_lava_jump()
+			
 			is_jumping = true
 			is_jump_held = true
 			jump_timer = BOAT_JUMP_DELAY
@@ -217,6 +215,9 @@ func _on_movement_changed(movement_type):
 		"flying":
 			enter_flying_mode()
 			current_state = PlayerState.FLYING
+		"roll":
+			current_state = PlayerState.ROLL
+			enter_rolling_mode()
 
 func _on_bat_nervous():
 	knight.play("nervous")
@@ -236,4 +237,26 @@ func _on_break_shield():
 	temp_timer.wait_time = 0.5  
 	temp_timer.start()
 	await temp_timer.timeout
+	shield.modulate = Color(1, 1, 1, 1)
 	shield.stop()
+
+
+
+
+
+func enter_rolling_mode():
+	MovementManager.change_game_speed_always(150)
+
+
+
+
+
+
+var roll_GRAVITY = 500
+
+func handle_roll(delta):
+	
+
+	if Input.is_action_just_pressed("ui_accept") and (is_on_floor()or is_on_ceiling()):
+		roll_GRAVITY *= -1
+	velocity.y = roll_GRAVITY  # Give an initial push when flipping

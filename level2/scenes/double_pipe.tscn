@@ -56,7 +56,7 @@ position = Vector2(3, -17)
 stream = ExtResource("5_h8h02")
 volume_db = -28.956
 autoplay = true
-max_distance = 343.0
+max_distance = 425.0
 
 [node name="fireball turn on" type="Area2D" parent="."]
 

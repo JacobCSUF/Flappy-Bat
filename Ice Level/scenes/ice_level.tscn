@@ -1,0 +1,142 @@
+[gd_scene load_steps=12 format=3 uid="uid://kg4ypex800fd"]
+
+[ext_resource type="Script" uid="uid://bh5jbna6rpmol" path="res://Ice Level/scenes/ice_level.gd" id="1_fc3u4"]
+[ext_resource type="PackedScene" uid="uid://bx4tokekfd0xf" path="res://scenes/knight.tscn" id="1_jvbgy"]
+[ext_resource type="Texture2D" uid="uid://bq51mts8t2rjk" path="res://Ice Level/assets/sprites/lavaflow.png" id="2_xrvwc"]
+[ext_resource type="Texture2D" uid="uid://cebcl24qd0byy" path="res://Ice Level/assets/sprites/oldpipesOLDDD.png" id="3_fc3u4"]
+[ext_resource type="AudioStream" uid="uid://xt7y2q5ah4c8" path="res://Ice Level/assets/sounds/christmas-snow-179849.mp3" id="5_dd46p"]
+[ext_resource type="PackedScene" uid="uid://dskwv25imsxti" path="res://Ice Level/scenes/snow_pipe.tscn" id="6_53tdx"]
+
+[sub_resource type="GDScript" id="GDScript_tu5rf"]
+script/source = "extends Camera2D
+
+
+@export var randomStrength: float = 1.1
+@export var  shakefade: float = 5.0
+
+var rng = RandomNumberGenerator.new()
+
+var shake_strength: float = 0.0
+
+func _process(delta):
+	if GameManager.screenshake:
+		apply_shake()
+	
+	if shake_strength >0:
+		shake_strength = lerpf(shake_strength,0,shakefade *delta)
+		
+		offset = randomOffset()
+
+
+
+func apply_shake():
+	shake_strength = randomStrength
+	
+func randomOffset() -> Vector2:
+	return Vector2(rng.randf_range(-shake_strength,shake_strength),rng.randf_range(-shake_strength,shake_strength))
+"
+
+[sub_resource type="Gradient" id="Gradient_26rfg"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xrvwc"]
+gradient = SubResource("Gradient_26rfg")
+width = 256
+height = 256
+fill = 1
+fill_from = Vector2(0.533951, 0.512346)
+fill_to = Vector2(0.796296, 0.148148)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_dd46p"]
+a = Vector2(150.489, 10.3662)
+b = Vector2(-149.511, 10.3662)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_fc3u4"]
+a = Vector2(172, 130)
+b = Vector2(-442, 130)
+
+[node name="ice_level" type="Node2D"]
+script = ExtResource("1_fc3u4")
+
+[node name="knight" parent="." instance=ExtResource("1_jvbgy")]
+position = Vector2(-179, -50)
+scale = Vector2(0.934881, 1.08993)
+
+[node name="Camera2D" type="Camera2D" parent="knight"]
+position = Vector2(2.13933, 8.25741)
+zoom = Vector2(4, 4)
+process_callback = 0
+limit_left = -240
+limit_top = -150
+limit_right = 150
+limit_bottom = 100
+position_smoothing_enabled = true
+position_smoothing_speed = 2.0
+script = SubResource("GDScript_tu5rf")
+
+[node name="PointLight2D" type="PointLight2D" parent="knight"]
+position = Vector2(-1.06965, -3.66996)
+scale = Vector2(0.341223, 0.421153)
+color = Color(1, 0.737255, 1, 1)
+energy = 0.48
+range_item_cull_mask = 2
+texture = SubResource("GradientTexture2D_xrvwc")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="."]
+position = Vector2(-136, -88)
+rotation = -3.14159
+scale = Vector2(2.04667, 2.21875)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D"]
+shape = SubResource("SegmentShape2D_dd46p")
+
+[node name="StaticBody2D2" type="StaticBody2D" parent="."]
+position = Vector2(0, -7.62939e-06)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="StaticBody2D2"]
+shape = SubResource("SegmentShape2D_fc3u4")
+
+[node name="paralaxxe" type="Node" parent="."]
+
+[node name="Parallax2D" type="Parallax2D" parent="paralaxxe"]
+repeat_size = Vector2(614, 0)
+autoscroll = Vector2(-165, 0)
+ignore_camera_scroll = true
+
+[node name="Lavaflow" type="Sprite2D" parent="paralaxxe/Parallax2D"]
+z_index = 1
+position = Vector2(-135, 109)
+scale = Vector2(2.04667, 2.21875)
+texture = ExtResource("2_xrvwc")
+
+[node name="Parallax2D3" type="Parallax2D" parent="paralaxxe"]
+repeat_size = Vector2(600, 0)
+autoscroll = Vector2(-120, 0)
+ignore_camera_scroll = true
+
+[node name="OldpipesOlddd" type="Sprite2D" parent="paralaxxe/Parallax2D3"]
+z_index = -1
+position = Vector2(-134, 12)
+scale = Vector2(1, 1.11532)
+texture = ExtResource("3_fc3u4")
+
+[node name="Parallax2D2" type="Parallax2D" parent="paralaxxe"]
+scroll_offset = Vector2(-101, 1)
+repeat_size = Vector2(614, 0)
+autoscroll = Vector2(-165, 0)
+ignore_camera_scroll = true
+
+[node name="Lavaflow2" type="Sprite2D" parent="paralaxxe/Parallax2D2"]
+z_index = 1
+position = Vector2(-136, -88)
+rotation = -3.14159
+scale = Vector2(2.04667, 2.21875)
+texture = ExtResource("2_xrvwc")
+
+[node name="Christmas-snow-179849" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("5_dd46p")
+volume_db = -14.667
+autoplay = true
+
+[node name="snow_pipe" parent="." instance=ExtResource("6_53tdx")]
+position = Vector2(-114, -26)

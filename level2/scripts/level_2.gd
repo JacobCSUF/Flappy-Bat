@@ -36,7 +36,7 @@ func _ready() -> void:
 	GameManager.connect("sublevel_enter", Callable(self, "_on_sublevel_enter"))
 	add_child(lava_level_)
 	add_child(boat_level_)
-	lava_intro_duration = randi_range(10,40)
+	lava_intro_duration = randi_range(12,40)
 	boat_section_length = randi_range(20,30)
 func spawn():
 	if skip_factor != 0:
@@ -76,6 +76,7 @@ func spawn_lava():
 	boatlight.visible = false
 
 func spawn_boat():
+	
 	boatlight.visible = true
 	boatlight.energy = 0.0
 

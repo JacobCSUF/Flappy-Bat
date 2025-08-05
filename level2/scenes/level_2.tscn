@@ -40,11 +40,11 @@ func randomOffset() -> Vector2:
 	return Vector2(rng.randf_range(-shake_strength,shake_strength),rng.randf_range(-shake_strength,shake_strength))
 "
 
-[sub_resource type="Gradient" id="Gradient_26rfg"]
+[sub_resource type="Gradient" id="Gradient_trgmu"]
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_72y3f"]
-gradient = SubResource("Gradient_26rfg")
+gradient = SubResource("Gradient_trgmu")
 width = 256
 height = 256
 fill = 1

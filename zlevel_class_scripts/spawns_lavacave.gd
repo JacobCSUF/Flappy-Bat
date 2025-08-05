@@ -167,31 +167,7 @@ func spawn_shooting_fire():
 
 	
 	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
-	
+
 
 func spawn_pipes():
 	var offset = randf_range(-90.0,40.0)
@@ -385,17 +361,17 @@ func spawn_pipe_stairs():
 			obj.modulate = Color.YELLOW
 			obj2.modulate = Color.YELLOW
 			obj.scale.y = -1
-			obj.position = Vector2(spawn_location + (i * 175), -172 + (i * -30))
+			obj.position = Vector2(spawn_location + (i * 185)+20, -172 + (i * -30))
 			add_child(obj)
 			obj.get_node("AnimationPlayer").stop()
-			obj2.position = Vector2(spawn_location + (i * 175), 192 + (i * -30))
+			obj2.position = Vector2(spawn_location + (i * 185)+20, 192 + (i * -30))
 			add_child(obj2)
 			obj2.get_node("AnimationPlayer").stop()
 
 			# Spawn orb(s) if last stair
 			if stair_count == 5 and i == 4:
 				var orb = fruit.instantiate()
-				orb.position = Vector2(spawn_location + (i * 175), 0 + (i * -30))
+				orb.position = Vector2(spawn_location + (i * 185)+20, 0 + (i * -30))
 				add_child(orb)
 
 		return_val = 1 if stair_count == 1 else (10 if stair_count == 5 else 6)
@@ -408,7 +384,7 @@ func spawn_pipe_stairs():
 				var obj2 = spawn_object.instantiate()
 				obj.modulate = Color.YELLOW
 				obj2.modulate = Color.YELLOW
-				var x_offset = (i * 180) + (j * 50)
+				var x_offset = (i * 180) + (j * 50)+20
 				obj.scale.y = -1
 				obj.position = Vector2(spawn_location + x_offset, -170 + (i * -25))
 				add_child(obj)
@@ -421,7 +397,7 @@ func spawn_pipe_stairs():
 			if stair_count == 5 and i == 4:
 				for n in range(2):
 					var orb = fruit.instantiate()
-					orb.position = Vector2(spawn_location + (i * 180) + (n * 50), 0 + (i * -25))
+					orb.position = Vector2(spawn_location + (i * 180) +20+ (n * 50), 0 + (i * -25))
 					add_child(orb)
 
 		return_val = 2 if stair_count == 1 else (11 if stair_count == 5 else 7)
@@ -434,7 +410,7 @@ func spawn_pipe_stairs():
 				var obj2 = spawn_object.instantiate()
 				obj.modulate = Color.YELLOW
 				obj2.modulate = Color.YELLOW
-				var x_offset = (i * 205) + (j * 45)
+				var x_offset = (i * 205) + (j * 45) + 20
 				obj.scale.y = -1
 				obj.position = Vector2(spawn_location + x_offset, -174 + (i * -20))
 				add_child(obj)
@@ -448,7 +424,7 @@ func spawn_pipe_stairs():
 				for n in range(3):
 					var orb = fruit.instantiate()
 					var orb_x = (i * 205) + (n * 45)
-					orb.position = Vector2(spawn_location + orb_x, 0 + (i * -20))
+					orb.position = Vector2(spawn_location + orb_x+20, 0 + (i * -20))
 					add_child(orb)
 		
 		return_val = 2 if stair_count == 1 else (11 if stair_count == 5 else 7)
@@ -460,7 +436,7 @@ func spawn_fan_pipe_trios():
 	var offset = randi_range(-50,30)
 	var spacing = 200
 	var start_x = spawn_location
-	var sets_to_spawn = rng.randi_range(4, 6)
+	var sets_to_spawn = rng.randi_range(3, 5)
 
 	var pipe_distance = 215
 	var center_y_variation = 50

@@ -21,7 +21,7 @@ func _on_area_2d_body_entered(_body: Node2D) -> void:
 				fan_on_.play()
 			smoke.play("default")
 			animated_sprite_2d.play("spinning")
-			MovementManager.change_speed(256, .85, .69)
+			MovementManager.change_speed(250, .85, .69)
 			whoosh_sound_effects_1.play()
 
 func _on_area_2d_body_exited(_body: Node2D) -> void:

@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://xt7y2q5ah4c8"
+path="res://.godot/imported/christmas-snow-179849.mp3-0f7a73ec4595f6181f98aab49dcfa75f.mp3str"
+
+[deps]
+
+source_file="res://Ice Level/assets/sounds/christmas-snow-179849.mp3"
+dest_files=["res://.godot/imported/christmas-snow-179849.mp3-0f7a73ec4595f6181f98aab49dcfa75f.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

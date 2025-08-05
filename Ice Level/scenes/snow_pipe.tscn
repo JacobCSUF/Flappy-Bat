@@ -1,0 +1,45 @@
+[gd_scene load_steps=8 format=3 uid="uid://dskwv25imsxti"]
+
+[ext_resource type="Texture2D" uid="uid://cvxvpno3xhjjq" path="res://Ice Level/assets/sprites/snow_pipe.png" id="1_a5o0d"]
+[ext_resource type="Script" uid="uid://btduhqa6wkxl7" path="res://Ice Level/scripts/snow_pipe.gd" id="1_npaww"]
+[ext_resource type="PackedScene" uid="uid://dwv2t6r54wd1h" path="res://scenes/killzone.tscn" id="2_eofhc"]
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_npaww"]
+a = Vector2(567.5, 75.7576)
+b = Vector2(-237.5, 75.7576)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_pxpkt"]
+a = Vector2(377.5, 206.061)
+b = Vector2(-435, 206.061)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_0tvtx"]
+a = Vector2(-432.5, 48.4848)
+b = Vector2(-432.5, 190.909)
+
+[sub_resource type="SegmentShape2D" id="SegmentShape2D_2eoiy"]
+a = Vector2(375, 187.879)
+b = Vector2(375, 54.5454)
+
+[node name="snow_pipe" type="CharacterBody2D"]
+script = ExtResource("1_npaww")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+scale = Vector2(0.4, 0.33)
+texture = ExtResource("1_a5o0d")
+
+[node name="StaticBody2D" type="StaticBody2D" parent="Sprite2D"]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/StaticBody2D"]
+position = Vector2(-195, -45.4545)
+shape = SubResource("SegmentShape2D_npaww")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Sprite2D/StaticBody2D"]
+shape = SubResource("SegmentShape2D_pxpkt")
+
+[node name="Killzone" parent="Sprite2D" instance=ExtResource("2_eofhc")]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Killzone"]
+shape = SubResource("SegmentShape2D_0tvtx")
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Sprite2D/Killzone"]
+shape = SubResource("SegmentShape2D_2eoiy")

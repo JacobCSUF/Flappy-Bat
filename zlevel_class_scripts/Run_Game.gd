@@ -1,6 +1,6 @@
 extends Node2D
 @export var base_game_speed = 165
-@export var base_wait_time := 0.563
+@export var base_wait_time := 0.57
 var time_accumulator := 0.0
 var previous_game_speed = 165
 var rng = RandomNumberGenerator.new()
@@ -8,9 +8,9 @@ var offset = 0.0
 
 
 const LEVEL_2 = preload("res://level2/scenes/level_2.tscn")
-
+const ICE_LEVEL = preload("res://Ice Level/scenes/ice_level.tscn")
 var yuh = LEVEL_2.instantiate()
-
+#var buh = ICE_LEVEL.instantiate()
 
 var level = true
 var first = true
