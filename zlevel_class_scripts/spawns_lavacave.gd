@@ -236,28 +236,45 @@ func spawn_lavafall():
 	add_child(lavafall_)
 	
 func spawn_fan():
-	var offset = randf_range(-40,20)
+	var offset = randf_range(-40, 20)
+
+	# Spawn the fan
 	var fan_ = fan.instantiate()
 	fan_.autospin = true
-	fan_.position = Vector2(spawn_location+15,offset)
+	fan_.position = Vector2(spawn_location + 15, offset)
 	add_child(fan_)
+
+	# Spawn the top and bottom objects
 	var obj = spawn_object.instantiate()
 	var obj2 = spawn_object.instantiate()
-	obj.scale.y = -1  # Flips the object upside down
-	obj.position = Vector2(spawn_location+15, -215 + offset)
+
+	obj.scale.y = -1  # Flip upside down
+	obj.position = Vector2(spawn_location + 15, -215 + offset)
 	add_child(obj)
 	obj.get_node("AnimationPlayer").stop()
-		
-	obj2.position = Vector2(spawn_location+15, 210 + offset)
+
+	obj2.position = Vector2(spawn_location + 15, 210 + offset)
 	add_child(obj2)
 	obj2.get_node("AnimationPlayer").stop()
-	
-	for i in range(6):
+
+	# --- 3 stacked barrels near the fan (shifted right by 80 units) ---
+	for i in range(3):
 		var barrel_ = barrel.instantiate()
-		var random_y_offset = rng.randi_range(-25, 20)
-		barrel_.position = Vector2(spawn_location +15+ ((i + 1) * 50), offset - 10 + random_y_offset)
+		var vertical_spacing = 60
+		barrel_.position = Vector2(spawn_location + 80, offset + 30 - (i * vertical_spacing))
 		add_child(barrel_)
+
+	# --- 5 single barrels spaced horizontally (no stacking) ---
+	for i in range(3):
+		var barrel_ = barrel.instantiate()
+		var x_pos = spawn_location + 150 + (i * 100)
+		barrel_.position = Vector2(x_pos, offset -20)
+		add_child(barrel_)
+
 	return 5
+
+
+
 	
 func spawn_fireballs():
 	var hole = rng.randi_range(3, 8)

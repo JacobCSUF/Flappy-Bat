@@ -8,7 +8,7 @@ var offset = 0.0
 
 
 const LEVEL_2 = preload("res://level2/scenes/level_2.tscn")
-const ICE_LEVEL = preload("res://Ice Level/scenes/ice_level.tscn")
+
 var yuh = LEVEL_2.instantiate()
 #var buh = ICE_LEVEL.instantiate()
 
